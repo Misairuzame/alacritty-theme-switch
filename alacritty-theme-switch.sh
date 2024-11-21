@@ -112,6 +112,9 @@ function MENU() {
             read -rsn1 -p 'Press any key to continue...'
             print_menu
             ;;
+        *)  
+            print_menu
+            ;;
         esac
     done
 }
