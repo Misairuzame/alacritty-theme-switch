@@ -3,6 +3,7 @@
 escape_char=$(printf "\u1b")
 config_file_path="$HOME/.config/alacritty/alacritty.toml"
 theme_path="$HOME/.config/alacritty/themes/themes"
+print_colors="$HOME/.config/alacritty/themes/print_colors.sh"
 previous_theme="$(grep -i import "$config_file_path" | perl -ne 'print "$1" if /^.+"(.+)".+$/')"
 
 make_config_backup() {
@@ -67,7 +68,7 @@ function MENU() {
     LAST_ITEM=$((LENGTH - 1))
 
     while true; do
-        read -rsn1 -p 'Up/down arrows to navigate, Enter to select, CTRL-C to revert to previous theme' input
+        read -rsn1 -p 'Up/down arrows to navigate, "p" to print color scheme, Enter to select, CTRL-C to revert to previous theme' input
         if [[ $input == "$escape_char" ]]; then
             read -rsn2 input
         fi
@@ -103,6 +104,16 @@ function MENU() {
             echo -e "\n---\n"
             echo "Selected theme: $(basename "${OPTIONS[$SELECTED]}" | sed 's/.toml//')"
             break
+            ;;
+        # Tasto p
+        "p")
+            clear
+            $print_colors
+            read -rsn1 -p 'Press any key to continue...'
+            print_menu
+            ;;
+        *)  
+            print_menu
             ;;
         esac
     done
